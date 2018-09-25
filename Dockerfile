@@ -5,6 +5,7 @@ WORKDIR /app
 
 # copy env file
 COPY .env /app/
+COPY data.xlsx /app/
 
 # Now just add the binary
 ADD main /app/
