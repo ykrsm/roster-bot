@@ -25,6 +25,14 @@
   revision = "23d116af351c84513e1946b527c88823e476be13"
   version = "v1.3.0"
 
+[[projects]]
+  digest = "1:e60f2f1cd2e8dfdea48c2440c303d103266e754ab1d8b75796a4e4caddb7a68c"
+  name = "github.com/tealeg/xlsx"
+  packages = ["."]
+  pruneopts = "UT"
+  revision = "8be35264fa75a1bbe954ce51eba04f273e2c59e5"
+  version = "v1.0.3"
+
 [solve-meta]
   analyzer-name = "dep"
   analyzer-version = 1
@@ -32,6 +40,7 @@
     "github.com/360EntSecGroup-Skylar/excelize",
     "github.com/bluele/slack",
     "github.com/joho/godotenv",
+    "github.com/tealeg/xlsx",
   ]
   solver-name = "gps-cdcl"
   solver-version = 1

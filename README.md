@@ -10,3 +10,4 @@ env GOOS=linux GOARCH=386 go build -o main
 docker-compose build
 docker-compose up
 ```
+env GOOS=linux GOARCH=386 go build -o main && docker-compose up --build
