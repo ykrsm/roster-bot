@@ -27,10 +27,11 @@ func main() {
 		return
 	}
 
-	year, month, day := time.Now().Date()
-	monthInt := int(month)
+	t := time.Now()
+	_, month, day := t.Date()
+	fmt.Printf("Current time: %v", t)
 
-	fmt.Println(year, monthInt, day)
+	monthInt := int(month)
 
 	sheetIndex := 0
 	if monthInt < 7 {
@@ -40,10 +41,6 @@ func main() {
 	}
 
 	sheetName := xlsx1.GetSheetName(sheetIndex)
-
-	// Get value from cell by given worksheet name and axis.
-	// cell := xlsx.GetCellValue(sheetName, "B2")
-	// fmt.Println(cell)
 
 	var monthCol int
 	var monthRow int
@@ -67,6 +64,7 @@ func main() {
 		fmt.Println(err)
 	}
 
+	var res string
 	sli := make([]string, 0)
 	for s, sheet := range xlFile.Sheets {
 		if s != sheetIndex-1 {
@@ -88,27 +86,39 @@ func main() {
 					workInfo := row.Cells[monthCol+day].String()
 					fmt.Printf("%s %s\n", workInfo, workInfoCell.GetStyle().Fill.FgColor)
 
-					sli = append(sli, name+" :"+workInfo)
+					if workInfo == "D" && workInfoCell.GetStyle().Fill.FgColor == "" {
+						workInfo = "D1"
+					}
 
+					workInfoStr := ""
+					switch workInfo {
+					case "D1":
+						workInfoStr = "当番"
+					case "D2":
+						workInfoStr = "当番(副)"
+					case "D":
+						workInfoStr = "通常勤務"
+					case "R":
+						workInfoStr = "準備期間"
+					case "I":
+						workInfoStr = "出張移動"
+					case "T":
+						workInfoStr = "出張"
+					}
+
+					if workInfoStr == "" {
+						break
+					}
+					sli = append(sli, name+" :"+workInfo)
+					res = res + name + ": \t" + workInfoStr + "\n"
 					break
 				}
 			}
 		}
 	}
 
-	fmt.Println(sli)
-
-	attaSli := make([]*slack.Attachment, 0)
-
-	for _, ele := range sli {
-		temp := &slack.Attachment{Text: ele}
-		attaSli = append(attaSli, temp)
-	}
-
 	err2 := hook.PostMessage(&slack.WebHookPostPayload{
-
-		Text:        "おはよう！日直バざるインフォだよ",
-		Attachments: attaSli,
+		Text: "おはよう！日直バざるだよ\n\n" + res,
 	})
 	if err2 != nil {
 		panic(err)
