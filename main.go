@@ -18,8 +18,9 @@ func main() {
 	hookURL := os.Getenv("WEBHOOK_URL")
 
 	t := time.Now()
-	_, month, day := t.Date()
 	fmt.Printf("Current time:\t%v\n", t)
+
+	_, month, day := t.Date()
 
 	res := makeRoster(int(month), day)
 
