@@ -9,7 +9,7 @@ import (
 
 const FILE_NAME = "./data.xlsx"
 
-func makeRoster(month, day int) string {
+func makeRoster(month, day int) (res string) {
 
 	sheetIndex := 0
 	if month < 7 {
@@ -25,40 +25,39 @@ func makeRoster(month, day int) string {
 		fmt.Println(err)
 	}
 
-	var res string
-	for s, sheet := range xlFile.Sheets {
-		if s != sheetIndex-1 {
+	// var res string
+	sheet := xlFile.Sheets[sheetIndex-1]
+	for r, row := range sheet.Rows {
+		if r < monthRow+4 {
 			continue
 		}
-		for r, row := range sheet.Rows {
-			if r < monthRow+4 {
-				continue
+		size := len(row.Cells)
+		fmt.Printf("size: %s\n", size)
+		if size == 0 {
+			break
+		}
+		cell := row.Cells[monthCol-1]
+
+		if cell.String() != "" &&
+			cell.GetStyle().Fill.FgColor == "FFFFE1E1" {
+			name := cell.String()
+			fmt.Printf("%s\n", name)
+
+			// get today work info
+			workInfoCell := row.Cells[monthCol+day]
+			workInfo := row.Cells[monthCol+day].String()
+			fmt.Printf("%s %s\n", workInfo, workInfoCell.GetStyle().Fill.FgColor)
+
+			if workInfo == "D" && workInfoCell.GetStyle().Fill.FgColor == "" {
+				workInfo = "D1"
 			}
-			for c, cell := range row.Cells {
-				if cell.String() != "" &&
-					cell.GetStyle().Fill.FgColor == "FFFFE1E1" &&
-					c == monthCol-1 {
-					name := cell.String()
-					fmt.Printf("%s\n", name)
 
-					// get today work info
-					workInfoCell := row.Cells[monthCol+day]
-					workInfo := row.Cells[monthCol+day].String()
-					fmt.Printf("%s %s\n", workInfo, workInfoCell.GetStyle().Fill.FgColor)
+			workInfoStr := makeTodayInfoStr(workInfo)
 
-					if workInfo == "D" && workInfoCell.GetStyle().Fill.FgColor == "" {
-						workInfo = "D1"
-					}
-
-					workInfoStr := makeTodayInfoStr(workInfo)
-
-					if workInfoStr == "" {
-						break
-					}
-					res = res + name + ": \t" + workInfoStr + "\n"
-					break
-				}
+			if workInfoStr == "" {
+				break
 			}
+			res = res + name + ": \t" + workInfoStr + "\n"
 		}
 	}
 	return res
