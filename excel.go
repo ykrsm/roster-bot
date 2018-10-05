@@ -11,11 +11,11 @@ const FILE_NAME = "./data.xlsx"
 
 func makeRoster(month, day int) (res string) {
 
-	sheetIndex := 0
+	sheetIndex := -1
 	if month < 7 {
-		sheetIndex = 1
+		sheetIndex = 0
 	} else {
-		sheetIndex = 2
+		sheetIndex = 1
 	}
 
 	monthRow, monthCol := getMonthRowCol(int(month))
@@ -26,7 +26,7 @@ func makeRoster(month, day int) (res string) {
 	}
 
 	// var res string
-	sheet := xlFile.Sheets[sheetIndex-1]
+	sheet := xlFile.Sheets[sheetIndex]
 	for r, row := range sheet.Rows {
 		if r < monthRow+4 {
 			continue
