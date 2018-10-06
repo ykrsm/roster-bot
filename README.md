@@ -17,10 +17,11 @@ env GOOS=linux GOARCH=386 go build -o main && docker-compose up --build
 
 # Set up for production server
 
-## Set timezone to Japna
+## Set timezone to CST
 ```
 $ sudo unlink /etc/localtime 
 $ sudo ln -s /usr/share/zoneinfo/Etc/GMT+6 /etc/localtime
+
 ```
 
 ## Set crontab
