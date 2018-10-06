@@ -17,41 +17,21 @@ env GOOS=linux GOARCH=386 go build -o main && docker-compose up --build
 
 # Set up for production server
 
-## Install docker
+## Set timezone to Japna
 ```
-# cd /etc/yum.repos.d/
-# wget http://yum.oracle.com/public-yum-ol7.repo
-# vi public-yum-ol7.repo
+$ sudo unlink /etc/localtime 
+$ sudo ln -s /usr/share/zoneinfo/Etc/GMT+6 /etc/localtime
+```
 
-[ol7_latest]
-name=Oracle Linux $releasever Latest ($basearch)
-baseurl=http://yum.oracle.com/repo/OracleLinux/OL7/latest/$basearch/
-gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-oracle
-gpgcheck=1
-enabled=1
-
-[ol7_UEKR4]
-name=Latest Unbreakable Enterprise Kernel Release 4 for Oracle Linux $releasever ($basearch)
-baseurl=http://yum.oracle.com/repo/OracleLinux/OL7/UEKR4/$basearch/
-gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-oracle
-gpgcheck=1
-enabled=1
-
-[ol7_addons]
-name=Oracle Linux $releasever Add ons ($basearch)
-baseurl=http://yum.oracle.com/repo/OracleLinux/OL7/addons/$basearch/
-gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-oracle
-gpgcheck=1
-enabled=1
+## Set crontab
+```
+crontab -e 
+59 23 * * * cd /home/slack/roster-bot && ./main
 ```
 
 # Deployment
 ```
-git clone https://github.com/ykrsm/roster-bot.git
-
-scp .env ./roster-bot
-scp ./data.xlsx ./roster-bot
-
-crontab -e 
-59 9 * * * git pull && env GOOS=linux GOARCH=386 go build -o main && docker-compose up --build
+scp ./.env slack@<PROD_SERVER_IP>:/home/slack/roster-bot  
+scp ./data.xlsx slack@<PROD_SERVER_IP>:/home/slack/roster-bot  
+scp ./main slack@<PROD_SERVER_IP>:/home/slack/roster-bot  
 ```

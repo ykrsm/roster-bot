@@ -54,10 +54,9 @@ func makeRoster(month, day int) (res string) {
 
 			workInfoStr := makeTodayInfoStr(workInfo)
 
-			if workInfoStr == "" {
-				break
+			if workInfoStr != "" {
+				res = res + name + ": \t" + workInfoStr + "\n"
 			}
-			res = res + name + ": \t" + workInfoStr + "\n"
 		}
 	}
 	return res
