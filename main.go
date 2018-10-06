@@ -10,16 +10,34 @@ import (
 )
 
 func main() {
+
 	err := godotenv.Load()
 	if err != nil {
 		log.Fatal("Error loading .env file")
 	}
 
-	hookURL := os.Getenv("WEBHOOK_URL")
+	arg := os.Args[1]
+	var hookURL string
+
+	switch arg {
+	case "-p":
+		fmt.Printf("PRODUCTION\n")
+		hookURL = os.Getenv("PROD_WEBHOOK_URL")
+
+	case "-d1":
+		fmt.Printf("DEVELOPMENT\n")
+		hookURL = os.Getenv("DEV1_WEBHOOK_URL")
+
+	case "-t":
+		fmt.Printf("TEST\n")
+		hookURL = os.Getenv("TEST_WEBHOOK_URL")
+
+	default:
+		os.Exit(1)
+	}
 
 	t := time.Now()
 	fmt.Printf("Current time:\t%v\n", t)
-
 	_, month, day := t.Date()
 
 	res := makeRoster(int(month), day)
