@@ -65,21 +65,21 @@ func makeRoster(month, day int) (res string) {
 func makeTodayInfoStr(workInfo string) (res string) {
 	switch workInfo {
 	case "D1":
-		res = "当番"
+		res = ":touban:"
 	case "D2":
-		res = "当番(副)"
+		res = ":touban:(副)"
 	case "D":
-		res = "通常勤務"
+		res = ":kinmu:"
 	case "R":
-		res = "準備期間"
+		res = ":junbi:"
 	case "I":
-		res = "出張移動"
+		res = ":idou:"
 	case "T":
-		res = "出張"
+		res = ":syuttyou:"
 	case "V":
-		res = "休日"
+		res = ":kyuujitu:"
 	default:
-		res = "非番"
+		res = ":kyuujitu:"
 	}
 	return
 }
