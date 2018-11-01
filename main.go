@@ -46,6 +46,11 @@ func main() {
 
 	res := makeRoster(int(month), day)
 
-	text := "おはよう！日直バザールだよ!\n\n" + res
+	// Making date string in Japnaese
+	wdays := [...]string{"日", "月", "火", "水", "木", "金", "土"}
+	weekDayJP := wdays[t.Weekday()]
+	dateJP := t.Format("1月2日 (" + weekDayJP + ")")
+
+	text := dateJP + " の勤務表でござ~る\n\n" + res
 	postMessage(text, hookURL)
 }
