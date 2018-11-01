@@ -25,8 +25,12 @@ func main() {
 		hookURL = os.Getenv("PROD_WEBHOOK_URL")
 
 	case "-d1":
-		fmt.Printf("DEVELOPMENT\n")
+		fmt.Printf("DEVELOPMENT1\n")
 		hookURL = os.Getenv("DEV1_WEBHOOK_URL")
+
+	case "-d2":
+		fmt.Printf("DEVELOPMENT2\n")
+		hookURL = os.Getenv("DEV2_WEBHOOK_URL")
 
 	case "-t":
 		fmt.Printf("TEST\n")
