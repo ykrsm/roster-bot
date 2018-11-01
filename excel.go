@@ -31,16 +31,36 @@ func makeRoster(month, day int) (res string) {
 		if r < monthRow+4 {
 			continue
 		}
+
+		/*
+			These if statements handle when to stop looping (going down the rows)
+
+			TODO: come up with better conditions
+			Now it bases on
+			* number of Cells (number of cells in a row) is 0
+			or
+			* FgColor is null
+		*/
+
 		size := len(row.Cells)
-		fmt.Printf("size: %s\n", size)
+		fmt.Printf("r: %d size: %d\n", r, size)
+
 		if size == 0 {
 			break
 		}
-		cell := row.Cells[monthCol-1]
 
-		if cell.String() != "" &&
+		cell := row.Cells[monthCol-1]
+		fmt.Printf("cell Fmt: %+v\n", cell.GetStyle().Fill)
+
+		cellFgColor := cell.GetStyle().Fill.FgColor
+
+		if cellFgColor == "" {
+			break
+		}
+
+		name := cell.String()
+		if name != "" &&
 			cell.GetStyle().Fill.FgColor == "FFFFE1E1" {
-			name := cell.String()
 			fmt.Printf("%s\n", name)
 
 			// get today work info
