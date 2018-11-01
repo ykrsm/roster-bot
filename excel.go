@@ -76,6 +76,10 @@ func makeTodayInfoStr(workInfo string) (res string) {
 		res = "出張移動"
 	case "T":
 		res = "出張"
+	case "V":
+		res = "休日"
+	default:
+		res = "非番"
 	}
 	return
 }
