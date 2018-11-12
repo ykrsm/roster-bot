@@ -12,6 +12,8 @@
 # Output of the go coverage tool, specifically when used with LiteIDE
 *.out
 
+.prod_ip
+prod_ip
 .env
 
 main
