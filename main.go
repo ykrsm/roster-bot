@@ -40,6 +40,15 @@ func main() {
 		os.Exit(1)
 	}
 
+	var fileName string
+	if len(os.Args) > 2 {
+		fileName = os.Args[2]
+	} else {
+		fileName = "./data.xlsx"
+	}
+
+	fmt.Printf("File name: %s", fileName)
+
 	t := time.Now()
 	fmt.Printf("Current time:\t%v\n", t)
 	_, month, day := t.Date()
