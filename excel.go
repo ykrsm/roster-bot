@@ -7,9 +7,9 @@ import (
 	"github.com/tealeg/xlsx"
 )
 
-const FILE_NAME = "./data.xlsx"
+// const FILE_NAME = "./data.xlsx"
 
-func makeRoster(month, day int) (res string) {
+func makeRoster(month, day int, fileName string) (res string) {
 
 	sheetIndex := -1
 	if month < 7 {
@@ -18,9 +18,9 @@ func makeRoster(month, day int) (res string) {
 		sheetIndex = 1
 	}
 
-	monthRow, monthCol := getMonthRowCol(int(month))
+	monthRow, monthCol := getMonthRowCol(int(month), fileName)
 
-	xlFile, err := xlsx.OpenFile(FILE_NAME)
+	xlFile, err := xlsx.OpenFile(fileName)
 	if err != nil {
 		fmt.Println(err)
 	}
@@ -108,8 +108,8 @@ func makeTodayInfoStr(workInfo string) (res string) {
 // January is 1
 // February is 2
 // and so on...
-func getMonthRowCol(month int) (monthRow, monthCol int) {
-	xlsx1, err := excelize.OpenFile(FILE_NAME)
+func getMonthRowCol(month int, fileName string) (monthRow, monthCol int) {
+	xlsx1, err := excelize.OpenFile(fileName)
 	if err != nil {
 		fmt.Println(err)
 		panic(err)
