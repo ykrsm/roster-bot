@@ -53,7 +53,7 @@ func main() {
 	fmt.Printf("Current time:\t%v\n", t)
 	_, month, day := t.Date()
 
-	res := makeRoster(int(month), day)
+	res := makeRoster(int(month), day, fileName)
 
 	// Making date string in Japnaese
 	wdays := [...]string{"日", "月", "火", "水", "木", "金", "土"}
