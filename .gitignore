@@ -17,5 +17,3 @@ prod_ip
 .env
 
 main
-
-*.xlsx
