@@ -37,6 +37,16 @@ func (roster Roster) String() (res string) {
 	return res
 }
 
+func (roster Roster) DateJp() string {
+	// Making date string in Japnaese
+	return roster.Date.Format("1月2日 (" + roster.WeekDayJp() + ")")
+}
+
+func (roster Roster) WeekDayJp() string {
+	wdays := [...]string{"日", "月", "火", "水", "木", "金", "土"}
+	return wdays[roster.Date.Weekday()]
+}
+
 func (employee Employee) String() string {
 	return employee.RawName + "\t" + employee.workInfo.String()
 }

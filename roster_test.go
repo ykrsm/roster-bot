@@ -38,6 +38,42 @@ func TestRosterString(t *testing.T) {
 		t.Fail()
 	}
 }
+
+func TestRosterDateJp(t *testing.T) {
+	roster := Roster{
+		Date: time.Date(
+			2009, 11, 17, 20, 34, 58, 651387237, time.UTC),
+		Employees: []Employee{
+			emp1,
+			emp2,
+			emp3,
+			emp4,
+		},
+	}
+	actual := roster.DateJp()
+	expected := "11月17日 (" + roster.WeekDayJp() + ")"
+	if actual != expected {
+		fmt.Printf("got: %v, but want: %v", actual, expected)
+		t.Fail()
+	}
+}
+func TestRosterWeekDayJp(t *testing.T) {
+	actual := Roster{
+		Date: time.Date(
+			2009, 11, 17, 20, 34, 58, 651387237, time.UTC),
+		Employees: []Employee{
+			emp1,
+			emp2,
+			emp3,
+			emp4,
+		},
+	}.WeekDayJp()
+	expected := "火"
+	if actual != expected {
+		fmt.Printf("got: %v, but want: %v", actual, expected)
+		t.Fail()
+	}
+}
 func TestEmployeeEmoji(t *testing.T) {
 	actual := Employee{"My name", On}.Emoji()
 	expected := "My name\t:kinmu:"
