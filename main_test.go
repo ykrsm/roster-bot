@@ -117,6 +117,23 @@ func TestMainRunRoster11_30(t *testing.T) {
 	}
 }
 
+// Testing business trip day
+func TestMainRunRoster11_9(t *testing.T) {
+	actual := runRoster(11, 9, "./data.xlsx")
+	expected := `田中 太郎子 (SC): 	:kinmu:
+田中 太郎子 (SC): 	:touban:
+田中 太郎 (SC): 	:kinmu:
+田中太郎(Irving): 	:kyuujitu:
+田中 太郎子 (Irving): 	:syuttyou:
+田中太郎(Irving): 	:kinmu:
+田中太郎(Irving): 	:junbi:
+`
+	if actual != expected {
+		fmt.Printf("got: %v, but want: %v", actual, expected)
+		t.Fail()
+	}
+}
+
 // Testing end of year
 func TestMainRunRoster12_31(t *testing.T) {
 	actual := runRoster(12, 31, "./data.xlsx")
