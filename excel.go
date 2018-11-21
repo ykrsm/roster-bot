@@ -9,7 +9,7 @@ import (
 
 // const FILE_NAME = "./data.xlsx"
 
-func makeRoster(month, day int, fileName string) (res string) {
+func makeRoster(month, day int, fileName string, roster Roster) (res string) {
 
 	sheetIndex := -1
 	if month < 7 {
