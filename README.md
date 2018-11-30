@@ -18,10 +18,16 @@ env GOOS=linux GOARCH=386 go build -o main && docker-compose up --build
 # Set up for production server
 
 ## Set timezone to CST
+
 ```
+as slack
+
 $ sudo unlink /etc/localtime 
 $ sudo ln -s /usr/share/zoneinfo/Etc/GMT+6 /etc/localtime
-
+# add below to .bash_profile
+export TZ="/usr/share/zoneinfo/Etc/GMT+6"
+$ date
+# should be like  GMT+6 
 ```
 
 ## Set crontab
