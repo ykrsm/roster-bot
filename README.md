@@ -1,3 +1,5 @@
+[![CircleCI](https://circleci.com/gh/ykrsm/roster-bot.svg?style=svg)](https://circleci.com/gh/ykrsm/roster-bot)
+
 # roster-bot
 
 # Compile for linux
@@ -5,14 +7,13 @@
 dep ensure
 env GOOS=linux GOARCH=386 go build -o main
 ```
-# Start docker
+# Test run
 ```
-docker-compose build
-docker-compose up
+make dev
 ```
-# Feeling lazy? (one liner)
+# Run on the production server
 ```
-env GOOS=linux GOARCH=386 go build -o main && docker-compose up --build
+make run
 ```
 
 # Set up for production server
@@ -33,12 +34,10 @@ $ date
 ## Set crontab
 ```
 crontab -e 
-59 23 * * * cd /home/slack/roster-bot && ./main
+59 23 * * * cd /home/slack/roster-bot && make run
 ```
 
 # Deployment
 ```
-scp ./.env slack@<PROD_SERVER_IP>:/home/slack/roster-bot  
-scp ./data.xlsx slack@<PROD_SERVER_IP>:/home/slack/roster-bot  
-scp ./main slack@<PROD_SERVER_IP>:/home/slack/roster-bot  
+make deploy
 ```

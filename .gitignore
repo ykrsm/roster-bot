@@ -17,5 +17,4 @@ prod_ip
 .env
 
 main
-
-*.xlsx
+roster-bot

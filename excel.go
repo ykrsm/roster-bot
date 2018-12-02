@@ -7,9 +7,7 @@ import (
 	"github.com/tealeg/xlsx"
 )
 
-// const FILE_NAME = "./data.xlsx"
-
-func makeRoster(month, day int, fileName string) (res string) {
+func fillRoster(month, day int, fileName string, roster Roster) (res Roster) {
 
 	sheetIndex := -1
 	if month < 7 {
@@ -24,6 +22,8 @@ func makeRoster(month, day int, fileName string) (res string) {
 	if err != nil {
 		fmt.Println(err)
 	}
+
+	empSlice := []Employee{}
 
 	// var res string
 	sheet := xlFile.Sheets[sheetIndex]
@@ -43,14 +43,12 @@ func makeRoster(month, day int, fileName string) (res string) {
 		*/
 
 		size := len(row.Cells)
-		fmt.Printf("r: %d size: %d\n", r, size)
 
 		if size == 0 {
 			break
 		}
 
 		cell := row.Cells[monthCol-1]
-		fmt.Printf("cell Fmt: %+v\n", cell.GetStyle().Fill)
 
 		cellFgColor := cell.GetStyle().Fill.FgColor
 
@@ -61,45 +59,45 @@ func makeRoster(month, day int, fileName string) (res string) {
 		name := cell.String()
 		if name != "" &&
 			cell.GetStyle().Fill.FgColor == "FFFFE1E1" {
-			fmt.Printf("%s\n", name)
 
 			// get today work info
 			workInfoCell := row.Cells[monthCol+day]
 			workInfo := row.Cells[monthCol+day].String()
-			fmt.Printf("%s %s\n", workInfo, workInfoCell.GetStyle().Fill.FgColor)
 
 			if workInfo == "D" && workInfoCell.GetStyle().Fill.FgColor == "" {
 				workInfo = "D1"
 			}
 
-			workInfoStr := makeTodayInfoStr(workInfo)
+			workInfoObj := makeWorkInfo(workInfo)
 
-			if workInfoStr != "" {
-				res = res + name + ": \t" + workInfoStr + "\n"
-			}
+			emp := Employee{name, workInfoObj}
+			empSlice = append(empSlice, emp)
 		}
 	}
-	return res
+
+	roster.Employees = empSlice
+	return roster
+
 }
 
-func makeTodayInfoStr(workInfo string) (res string) {
+func makeWorkInfo(workInfo string) (res WorkInfo) {
 	switch workInfo {
 	case "D1":
-		res = ":touban:"
+		res = Duty
 	case "D2":
-		res = ":touban:(副)"
+		res = SubDuty
 	case "D":
-		res = ":kinmu:"
+		res = On
 	case "R":
-		res = ":junbi:"
+		res = Prepare
 	case "I":
-		res = ":idou:"
+		res = Moving
 	case "T":
-		res = ":syuttyou:"
+		res = Trip
 	case "V":
-		res = ":kyuujitu:"
+		res = Off
 	default:
-		res = ":kyuujitu:"
+		res = Off
 	}
 	return
 }
@@ -133,7 +131,6 @@ func getMonthRowCol(month int, fileName string) (monthRow, monthCol int) {
 			if colCell == fmt.Sprintf("%d月", monthInt) {
 				monthCol = colPos
 				monthRow = rowPos
-				fmt.Printf("Found month:\trow: %d, col: %d, val: %s\n", monthRow, monthCol, colCell)
 			}
 		}
 	}

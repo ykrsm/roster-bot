@@ -53,7 +53,9 @@ func main() {
 	fmt.Printf("Current time:\t%v\n", t)
 	_, month, day := t.Date()
 
-	res := makeRoster(int(month), day, fileName)
+	roster := Roster{Date: t}
+	// res := makeRoster(int(month), day, fileName)
+	res := runRoster(int(month), day, fileName, roster)
 
 	// Making date string in Japnaese
 	wdays := [...]string{"日", "月", "火", "水", "木", "金", "土"}
@@ -62,4 +64,11 @@ func main() {
 
 	text := dateJP + " の勤務表でござ~る\n\n" + res
 	postMessage(text, hookURL)
+}
+
+func runRoster(month, day int, fileName string, roster Roster) string {
+	r := fillRoster(month, day, fileName, roster)
+
+	return r.String()
+	// return makeRoster(month, day, fileName, roster)
 }
