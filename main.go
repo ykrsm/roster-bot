@@ -67,6 +67,8 @@ func main() {
 }
 
 func runRoster(month, day int, fileName string, roster Roster) string {
-	return makeRoster(month, day, fileName, roster)
+	r := fillRoster(month, day, fileName, roster)
 
+	return r.String()
+	// return makeRoster(month, day, fileName, roster)
 }

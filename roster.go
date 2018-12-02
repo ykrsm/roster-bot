@@ -73,8 +73,8 @@ func (workInfo WorkInfo) Emoji() string {
 		":touban:",
 		":touban:(副)",
 		":junbi:",
-		":idou:",
 		":syuttyou:",
+		":idou:",
 		":kyuujitu:"}
 	return emojis[workInfo]
 }
