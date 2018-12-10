@@ -16,4 +16,4 @@ deploy:
 	echo Deployed source to IP: $(IP)
 
 test:
-	go test -v
+	go test -v ./...
