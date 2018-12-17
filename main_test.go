@@ -7,7 +7,7 @@ import (
 )
 
 func TestMainRunRoster1_1(t *testing.T) {
-	actual := runRoster(1, 1, "./data.xlsx", Roster{Date: time.Now()})
+	actual := runRoster(2018, 1, 1, "./data.xlsx", Roster{Date: time.Now()})
 	expected := `田中 太郎 (US)	:kyuujitu:
 田中 太郎２ (US)	:touban:(副)
 田中 太郎３ (US)	:kyuujitu:
@@ -27,7 +27,7 @@ func TestMainRunRoster1_1(t *testing.T) {
 
 // Testing empty cells (= off day)
 func TestMainRunRoster3_31(t *testing.T) {
-	actual := runRoster(3, 31, "./data.xlsx", Roster{Date: time.Now()})
+	actual := runRoster(2018, 3, 31, "./data.xlsx", Roster{Date: time.Now()})
 	expected := `田中 太郎 (US)	:kyuujitu:
 田中 太郎２ (US)	:kyuujitu:
 田中 太郎３ (US)	:kyuujitu:
@@ -48,7 +48,7 @@ func TestMainRunRoster3_31(t *testing.T) {
 // Testing PM
 // TODO Need to take care PM
 func TestMainRunRoster6_1(t *testing.T) {
-	actual := runRoster(6, 1, "./data.xlsx", Roster{Date: time.Now()})
+	actual := runRoster(2018, 6, 1, "./data.xlsx", Roster{Date: time.Now()})
 	expected := `田中 太郎 (US)	:idou:
 田中 太郎 (US)	:kyuujitu:
 田中 太郎２ (US)	:kinmu:
@@ -68,7 +68,7 @@ func TestMainRunRoster6_1(t *testing.T) {
 
 // Testing 2nd sheet
 func TestMainRunRoster7_15(t *testing.T) {
-	actual := runRoster(7, 15, "./data.xlsx", Roster{Date: time.Now()})
+	actual := runRoster(2018, 7, 15, "./data.xlsx", Roster{Date: time.Now()})
 	expected := `田中 太郎子 (SC)	:kyuujitu:
 田中 太郎子 (SC)	:touban:
 田中 太郎 (SC)	:kyuujitu:
@@ -86,7 +86,7 @@ func TestMainRunRoster7_15(t *testing.T) {
 
 // Testing empty name in the middle
 func TestMainRunRoster10_2(t *testing.T) {
-	actual := runRoster(10, 2, "./data.xlsx", Roster{Date: time.Now()})
+	actual := runRoster(2018, 10, 2, "./data.xlsx", Roster{Date: time.Now()})
 	expected := `田中 太郎子 (SC)	:kinmu:
 田中 太郎子 (SC)	:kinmu:
 田中 太郎 (SC)	:kinmu:
@@ -103,7 +103,7 @@ func TestMainRunRoster10_2(t *testing.T) {
 
 // Testing middle month
 func TestMainRunRoster11_30(t *testing.T) {
-	actual := runRoster(11, 30, "./data.xlsx", Roster{Date: time.Now()})
+	actual := runRoster(2018, 11, 30, "./data.xlsx", Roster{Date: time.Now()})
 	expected := `田中 太郎子 (SC)	:touban:
 田中 太郎子 (SC)	:kyuujitu:
 田中 太郎 (SC)	:kyuujitu:
@@ -120,7 +120,7 @@ func TestMainRunRoster11_30(t *testing.T) {
 
 // Testing business trip day
 func TestMainRunRoster11_9(t *testing.T) {
-	actual := runRoster(11, 9, "./data.xlsx", Roster{Date: time.Now()})
+	actual := runRoster(2018, 11, 9, "./data.xlsx", Roster{Date: time.Now()})
 	expected := `田中 太郎子 (SC)	:kinmu:
 田中 太郎子 (SC)	:touban:
 田中 太郎 (SC)	:kinmu:
@@ -137,7 +137,7 @@ func TestMainRunRoster11_9(t *testing.T) {
 
 // Testing end of year
 func TestMainRunRoster12_31(t *testing.T) {
-	actual := runRoster(12, 31, "./data.xlsx", Roster{Date: time.Now()})
+	actual := runRoster(2018, 12, 31, "./data.xlsx", Roster{Date: time.Now()})
 	expected := `田中 太郎子 (SC)	:kyuujitu:
 田中 太郎子 (SC)	:touban:
 田中 太郎 (SC)	:kinmu:

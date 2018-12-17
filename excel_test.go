@@ -11,7 +11,7 @@ func TestExcel1_1(t *testing.T) {
 	then := time.Date(
 		2009, 11, 17, 20, 34, 58, 651387237, time.UTC)
 	r := Roster{Date: then}
-	actual := fillRoster(1, 1, "./data.xlsx", r)
+	actual := fillRoster(2018, 1, 1, "./data.xlsx", r)
 	expected := Roster{
 		Date: then,
 		Employees: []Employee{

@@ -51,11 +51,11 @@ func main() {
 
 	t := time.Now()
 	fmt.Printf("Current time:\t%v\n", t)
-	_, month, day := t.Date()
+	year, month, day := t.Date()
 
 	roster := Roster{Date: t}
 	// res := makeRoster(int(month), day, fileName)
-	res := runRoster(int(month), day, fileName, roster)
+	res := runRoster(year, int(month), day, fileName, roster)
 
 	// Making date string in Japnaese
 	wdays := [...]string{"日", "月", "火", "水", "木", "金", "土"}
@@ -66,9 +66,8 @@ func main() {
 	postMessage(text, hookURL)
 }
 
-func runRoster(month, day int, fileName string, roster Roster) string {
-	r := fillRoster(month, day, fileName, roster)
+func runRoster(year, month, day int, fileName string, roster Roster) string {
+	r := fillRoster(year, month, day, fileName, roster)
 
 	return r.String()
-	// return makeRoster(month, day, fileName, roster)
 }
