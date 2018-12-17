@@ -3,30 +3,30 @@ package main
 import (
 	"fmt"
 
-	"github.com/360EntSecGroup-Skylar/excelize"
 	"github.com/tealeg/xlsx"
 )
 
-func fillRoster(month, day int, fileName string, roster Roster) (res Roster) {
-
-	sheetIndex := -1
-	if month < 7 {
-		sheetIndex = 0
-	} else {
-		sheetIndex = 1
-	}
-
-	monthRow, monthCol := getMonthRowCol(int(month), fileName)
+func fillRoster(year, month, day int, fileName string, roster Roster) (res Roster) {
 
 	xlFile, err := xlsx.OpenFile(fileName)
 	if err != nil {
 		fmt.Println(err)
 	}
 
+	var halfYearStr string
+	if month < 7 {
+		halfYearStr = "上半期"
+	} else {
+		halfYearStr = "下半期"
+	}
+
+	sheetKey := fmt.Sprintf("%d年%s", year, halfYearStr)
+
+	monthRow, monthCol := getMonthRowCol(month, sheetKey, xlFile)
+
 	empSlice := []Employee{}
 
-	// var res string
-	sheet := xlFile.Sheets[sheetIndex]
+	sheet := xlFile.Sheet[sheetKey]
 	for r, row := range sheet.Rows {
 		if r < monthRow+4 {
 			continue
@@ -106,33 +106,32 @@ func makeWorkInfo(workInfo string) (res WorkInfo) {
 // January is 1
 // February is 2
 // and so on...
-func getMonthRowCol(month int, fileName string) (monthRow, monthCol int) {
-	xlsx1, err := excelize.OpenFile(fileName)
-	if err != nil {
-		fmt.Println(err)
-		panic(err)
-	}
+func getMonthRowCol(month int, sheetKey string, xlFile *xlsx.File) (monthRow, monthCol int) {
 
-	monthInt := int(month)
+	fmt.Printf("sheet index %s\n", sheetKey)
 
-	sheetIndex := 0
-	if monthInt < 7 {
-		sheetIndex = 1
-	} else {
-		sheetIndex = 2
-	}
-
-	sheetName := xlsx1.GetSheetName(sheetIndex)
-
-	// get month row and col
-	rows := xlsx1.GetRows(sheetName)
-	for rowPos, row := range rows {
-		for colPos, colCell := range row {
-			if colCell == fmt.Sprintf("%d月", monthInt) {
+	sheet := xlFile.Sheet[sheetKey]
+	for rowPos, row := range sheet.Rows {
+		for colPos, colCell := range row.Cells {
+			if colCell.String() == fmt.Sprintf("%d月", month) {
 				monthCol = colPos
 				monthRow = rowPos
 			}
 		}
 	}
+
 	return
+}
+
+// return 0 based sheet index
+func makeSheetName(year, month int) string {
+
+	var halfYearStr string
+	if month < 7 {
+		halfYearStr = "上半期"
+	} else {
+		halfYearStr = "下半期"
+	}
+
+	return fmt.Sprintf("%d年%s", year, halfYearStr)
 }

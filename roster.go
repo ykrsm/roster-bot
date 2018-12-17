@@ -9,13 +9,13 @@ type Roster struct {
 
 type Employee struct {
 	RawName string
+	Status  WorkInfo
 	/*
 		FirstName     string
 		LastName     string
 		Office     string
 		Hopefully do some Regex and separate raw string
 	*/
-	workInfo WorkInfo
 }
 
 type WorkInfo int
@@ -48,11 +48,11 @@ func (roster Roster) WeekDayJp() string {
 }
 
 func (employee Employee) String() string {
-	return employee.RawName + "\t" + employee.workInfo.String()
+	return employee.RawName + "\t" + employee.Status.String()
 }
 
 func (employee Employee) Emoji() string {
-	return employee.RawName + "\t" + employee.workInfo.Emoji()
+	return employee.RawName + "\t" + employee.Status.Emoji()
 }
 
 func (workInfo WorkInfo) String() string {

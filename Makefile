@@ -16,4 +16,5 @@ deploy:
 	echo Deployed source to IP: $(IP)
 
 test:
-	go test -v
+	go clean -testcache
+	go test -v ./...
