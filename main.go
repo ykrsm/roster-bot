@@ -44,10 +44,10 @@ func main() {
 	if len(os.Args) > 2 {
 		fileName = os.Args[2]
 	} else {
-		fileName = "./data.xlsx"
+		log.Fatal("Error file name not specified")
 	}
 
-	fmt.Printf("File name: %s", fileName)
+	fmt.Printf("File name: %s\n", fileName)
 
 	t := time.Now()
 	fmt.Printf("Current time:\t%v\n", t)

@@ -14,4 +14,4 @@ COPY data.xlsx /app/
 
 # Now just add the binary
 ADD main /app/
-ENTRYPOINT ./main -d2
+ENTRYPOINT ./main -d2 ./data.xlsx

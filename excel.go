@@ -57,6 +57,7 @@ func fillRoster(year, month, day int, fileName string, roster Roster) (res Roste
 		}
 
 		name := cell.String()
+		fmt.Printf("%+v\n", name)
 		if name != "" &&
 			cell.GetStyle().Fill.FgColor == "FFFFE1E1" {
 
@@ -72,6 +73,7 @@ func fillRoster(year, month, day int, fileName string, roster Roster) (res Roste
 
 			emp := Employee{name, workInfoObj}
 			empSlice = append(empSlice, emp)
+			fmt.Printf("%+v\n", emp)
 		}
 	}
 
