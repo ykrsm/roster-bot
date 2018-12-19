@@ -1,6 +1,7 @@
 package main
 
 import (
+	"bufio"
 	"fmt"
 	"log"
 	"os"
@@ -15,6 +16,10 @@ func main() {
 	if err != nil {
 		log.Fatal("Error loading .env file")
 	}
+
+	// os.Args[1] specify if its prod or dev
+	// os.Args[2] is excel file name
+	// os.Args[3] specify txt file contains names
 
 	arg := os.Args[1]
 	var hookURL string
@@ -41,21 +46,28 @@ func main() {
 	}
 
 	var fileName string
-	if len(os.Args) > 2 {
+	var namelistFileName string
+	if len(os.Args) == 4 {
 		fileName = os.Args[2]
+		namelistFileName = os.Args[3]
 	} else {
-		log.Fatal("Error file name not specified")
+		log.Fatal("Not enough argument\n")
 	}
-
-	fmt.Printf("File name: %s\n", fileName)
 
 	t := time.Now()
 	fmt.Printf("Current time:\t%v\n", t)
 	year, month, day := t.Date()
 
+	// parse txt file and make an array of names
+	names := parseNameFile(namelistFileName)
+
+	fmt.Printf("File name: %s\n", fileName)
+	fmt.Printf("Names File: %v\n", namelistFileName)
+	fmt.Printf("Names: %v\n", names)
+
 	roster := Roster{Date: t}
 	// res := makeRoster(int(month), day, fileName)
-	res := runRoster(year, int(month), day, fileName, roster)
+	res := runRoster(year, int(month), day, fileName, roster, names)
 
 	// Making date string in Japnaese
 	wdays := [...]string{"日", "月", "火", "水", "木", "金", "土"}
@@ -66,8 +78,27 @@ func main() {
 	postMessage(text, hookURL)
 }
 
-func runRoster(year, month, day int, fileName string, roster Roster) string {
-	r := fillRoster(year, month, day, fileName, roster)
+func runRoster(year, month, day int, fileName string, roster Roster, names []string) string {
+	r := fillRoster(year, month, day, fileName, roster, names)
 
 	return r.String()
+}
+
+func parseNameFile(fileName string) (names []string) {
+
+	// Open the file.
+	f, err := os.Open(fileName)
+	if err != nil {
+		log.Fatal("Cannot open " + fileName)
+	}
+	// Create a new Scanner for the file.
+	scanner := bufio.NewScanner(f)
+	// Loop over all lines in the file and print them.
+	for scanner.Scan() {
+		line := scanner.Text()
+		names = append(names, line)
+	}
+
+	f.Close()
+	return names
 }

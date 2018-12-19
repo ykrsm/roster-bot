@@ -5,6 +5,17 @@
     "version": "0.2.0",
     "configurations": [
         {
+            "name": "debug data3",
+            "type": "go",
+            "request": "launch",
+            "mode": "test",
+            "program": "${workspaceFolder}",
+            "args": [
+                "-test.run",
+                "TestExcel_3_7_15"
+            ]
+        },
+        {
             "name": "Launch test function",
             "type": "go",
             "request": "launch",

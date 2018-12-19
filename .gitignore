@@ -14,6 +14,7 @@
 
 .prod_ip
 prod_ip
+names_prod.txt
 .env
 
 main

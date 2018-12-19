@@ -2,11 +2,12 @@ package main
 
 import (
 	"fmt"
+	"strings"
 
 	"github.com/tealeg/xlsx"
 )
 
-func fillRoster(year, month, day int, fileName string, roster Roster) (res Roster) {
+func fillRoster(year, month, day int, fileName string, roster Roster, names []string) (res Roster) {
 
 	xlFile, err := xlsx.OpenFile(fileName)
 	if err != nil {
@@ -26,12 +27,23 @@ func fillRoster(year, month, day int, fileName string, roster Roster) (res Roste
 
 	empSlice := []Employee{}
 
+	numOfNames := len(names)
+
 	sheet := xlFile.Sheet[sheetKey]
 	for r, row := range sheet.Rows {
+		if r > monthRow+numOfNames+3 {
+			break
+		}
+
 		if r < monthRow+4 {
 			continue
 		}
 
+		size := len(row.Cells)
+
+		if size == 0 {
+			continue
+		}
 		/*
 			These if statements handle when to stop looping (going down the rows)
 
@@ -42,39 +54,42 @@ func fillRoster(year, month, day int, fileName string, roster Roster) (res Roste
 			* FgColor is null
 		*/
 
-		size := len(row.Cells)
-
-		if size == 0 {
-			break
-		}
-
 		cell := row.Cells[monthCol-1]
-
-		cellFgColor := cell.GetStyle().Fill.FgColor
-
-		if cellFgColor == "" {
-			break
-		}
 
 		name := cell.String()
 		fmt.Printf("%+v\n", name)
-		if name != "" &&
-			cell.GetStyle().Fill.FgColor == "FFFFE1E1" {
 
-			// get today work info
-			workInfoCell := row.Cells[monthCol+day]
-			workInfo := row.Cells[monthCol+day].String()
+		isNameMatch := contains(names, name)
+		fmt.Printf("%+v\n", isNameMatch)
 
-			if workInfo == "D" && workInfoCell.GetStyle().Fill.FgColor == "" {
-				workInfo = "D1"
-			}
-
-			workInfoObj := makeWorkInfo(workInfo)
-
-			emp := Employee{name, workInfoObj}
-			empSlice = append(empSlice, emp)
-			fmt.Printf("%+v\n", emp)
+		if !isNameMatch {
+			continue
 		}
+
+		// cellFgColor := cell.GetStyle().Fill.FgColor
+
+		/*
+			if cellFgColor != "FFFFE1E1" {
+				continue
+			}
+		*/
+		if name == "" {
+			continue
+		}
+
+		// get today work info
+		workInfoCell := row.Cells[monthCol+day]
+		workInfo := row.Cells[monthCol+day].String()
+
+		if workInfo == "D" && workInfoCell.GetStyle().Fill.FgColor == "" {
+			workInfo = "D1"
+		}
+
+		workInfoObj := makeWorkInfo(workInfo)
+
+		emp := Employee{name, workInfoObj}
+		empSlice = append(empSlice, emp)
+		fmt.Printf("%+v\n", emp)
 	}
 
 	roster.Employees = empSlice
@@ -136,4 +151,13 @@ func makeSheetName(year, month int) string {
 	}
 
 	return fmt.Sprintf("%d年%s", year, halfYearStr)
+}
+
+func contains(names []string, target string) bool {
+	for _, name := range names {
+		if strings.Contains(target, name) {
+			return true
+		}
+	}
+	return false
 }
