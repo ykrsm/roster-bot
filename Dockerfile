@@ -11,7 +11,9 @@ WORKDIR /app
 # copy env file
 COPY .env /app/
 COPY data.xlsx /app/
+COPY data3.xlsx /app/
+COPY names.txt /app/
 
 # Now just add the binary
 ADD main /app/
-ENTRYPOINT ./main -d2
+ENTRYPOINT ./main -d2 ./data3.xlsx ./names.txt
