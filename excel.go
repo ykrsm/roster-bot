@@ -104,6 +104,7 @@ func makeWorkInfo(workInfo string) (res WorkInfo) {
 	case "D2":
 		res = SubDuty
 	case "D":
+	case "S":
 		res = On
 	case "R":
 		res = Prepare
