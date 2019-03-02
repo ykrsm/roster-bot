@@ -106,6 +106,8 @@ func makeWorkInfo(workInfo string) (res WorkInfo) {
 	case "D":
 	case "S":
 		res = On
+	case "DR":
+		res = Remote
 	case "R":
 		res = Prepare
 	case "I":

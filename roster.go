@@ -24,6 +24,7 @@ const (
 	On WorkInfo = iota // Working day
 	Duty
 	SubDuty
+	Remote
 	Prepare
 	Trip
 	Moving
@@ -60,6 +61,7 @@ func (workInfo WorkInfo) String() string {
 		"勤務",
 		"当番",
 		"当番(副)",
+		"リモート勤務",
 		"準備",
 		"出張",
 		"移動",
@@ -72,6 +74,7 @@ func (workInfo WorkInfo) Emoji() string {
 		":kinmu:",
 		":touban:",
 		":touban:(副)",
+		":kinmu::remote:",
 		":junbi:",
 		":syuttyou:",
 		":idou:",
