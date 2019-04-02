@@ -2,7 +2,7 @@ FILE=prod_ip
 IP=`cat $(FILE)`
 
 run:
-	./main -p /mnt/ns/Schedule/current/[^~].xlxs
+	./main -p /mnt/ns/Schedule/current/[^~].xlxm
 
 dev:
 	env GOOS=linux GOARCH=386 go build -o main && docker-compose up --build
